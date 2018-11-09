@@ -13,7 +13,7 @@ class Chaine {
 
   public function __construct($data) {
     $this->setData($data);
-    $this->diff = rand(1000,5000);
+    $this->diff = rand(100000,500000);
     $this->dataHash = null;
   }
 
@@ -71,44 +71,55 @@ class Chaine {
   }
 
   public function show() {
-    var_dump($this->data);
-    if ($this->prev == null) {var_dump($this->prev);} else {var_dump($this->prev->data);}
-    if ($this->next == null) {var_dump($this->next);} else {var_dump($this->next->data);}
-    if ($this->prem == null) {var_dump($this->prem);} else {var_dump($this->prem->data);}
-    var_dump($this->dataHash);
-    var_dump($this->diff);
+    var_dump("Name : ".$this->data);
+    if ($this->prev == null) {var_dump("Prev : ".$this->prev);} else {var_dump("Prev : ".$this->prev->data);}
+    if ($this->next == null) {var_dump("Next : ".$this->next);} else {var_dump("Next : ".$this->next->data);}
+    if ($this->prem == null) {var_dump("Prem : ".$this->prem);} else {var_dump("Prem : ".$this->prem->data);}
+    var_dump("Hash : ".$this->dataHash);
+    var_dump("Diff : ".$this->diff);
     var_dump("--------------------------------------------------------");
   }
 
+  static function test() {
+    $first = new Chaine("1st Block");
+    $second = new Chaine("2nd Block");
+    $third = new Chaine("3rd Block");
+    $fourth = new Chaine("4rth Block");
+
+    // Hashage du 1er Bloc
+    var_dump("Mining...");
+    $first->hashBlock();
+    $_ENV["sumToFind"] = $first->checkSum($first->dataHash);
+    var_dump("1st Block Mine !");
+
+    // Ajout et Hashage du 2eme Bloc à la chaine
+    $first->addBlock($second);
+    var_dump("Mining...");
+    $second->hashBlock();
+    $_ENV["sumToFind"] = $second->checkSum($second->dataHash);
+    var_dump("2nd Block Mine !");
+
+    // Ajout et Hashage du 3eme Bloc à la chaine
+    $first->addBlock($third);
+    var_dump("Mining...");
+    $third->hashBlock();
+    $_ENV["sumToFind"] = $third->checkSum($third->dataHash);
+    var_dump("3rd Block Mine !");
+
+    // Ajout et Hashage du 4eme Bloc à la chaine
+    $first->addBlock($fourth);
+    var_dump("Mining...");
+    $fourth->hashBlock();
+    $_ENV["sumToFind"] = $fourth->checkSum($fourth->dataHash);
+    var_dump("4th Block Mine !");
+    var_dump("");
+    var_dump("--------------------------------------------------------");
+    $first->show();
+    $second->show();
+    $third->show();
+    $fourth->show();
+
+    var_dump("Hurray !! All the blocks has been Mine !!");
+  }
+
 }
-
-$first = new Chaine("1st Block");
-$second = new Chaine("2nd Block");
-$third = new Chaine("3rd Block");
-$fourth = new Chaine("4rth Block");
-$fifth = new Chaine("5fth Block");
-
-// Hashage du 1er Bloc
-$first->hashBlock();
-$_ENV["sumToFind"] = $first->checkSum($first->dataHash);
-
-// Ajout et Hashage du 2eme Bloc à la chaine
-$first->addBlock($second);
-$second->hashBlock();
-$_ENV["sumToFind"] = $second->checkSum($second->dataHash);
-
-// Ajout et Hashage du 3eme Bloc à la chaine
-$first->addBlock($third);
-$third->hashBlock();
-$_ENV["sumToFind"] = $third->checkSum($third->dataHash);
-
-// Ajout et Hashage du 4eme Bloc à la chaine
-$first->addBlock($fourth);
-$fourth->hashBlock();
-$_ENV["sumToFind"] = $fourth->checkSum($fourth->dataHash);
-
-$first->show();
-$second->show();
-$third->show();
-$fourth->show();
-// $fifth->show();
