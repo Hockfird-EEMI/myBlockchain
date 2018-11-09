@@ -1,5 +1,7 @@
 <?php
 
+$_ENV["sumToFind"] = null;
+
 class Chaine {
 
   public $data;
@@ -30,13 +32,6 @@ class Chaine {
     // Si le ThisBlock a déja un next
     if ($this->next != null) {
       $this->next->addBlock($newBlock);
-      // Le Next du Nouveau block devient le next du ThisBlock
-      // $newBlock->next = $this->next;
-      // Le prev du ThisBlock devient le Nouveau Block
-      // $this->next->prev = $newBlock;
-      // Le Next du ThisBlock devient le Nouveau Block
-      // $this->next = $newBlock;
-
     } else { // Si cela est une manip "Classique"
       $this->next = $newBlock;
       $newBlock->prev = $this;
@@ -54,11 +49,25 @@ class Chaine {
       $string = substr($string,0,$random_position).$random_char.substr($string,$random_position);
     }
 
-    if ($this->prev->data == null) {
+    if ($this->prev == null) {
       $this->dataHash = hash('sha256', $this->data . implode(getdate()) . $string);
     } else {
-      $this->dataHash = hash('sha256', $this->data . $this->prev->data . implode(getdate()) . $string);
+      $keyToCheck = $this->checkSum($this->prev->dataHash);
+      if ($keyToCheck == $_ENV["sumToFind"]) {
+        $this->dataHash = hash('sha256', $this->data . $this->prev->dataHash . implode(getdate()) . $string);
+      } else {
+        var_dump('MIDDLE MAN ! WRONG FILE !');
+        die;
+      }
     }
+  }
+
+  public function checkSum($dataHash) {
+    // Nous nous sommes mis d'accord sur le chiffre 9
+    $arrayHash = str_split($dataHash);
+    $sumHash = array_sum($arrayHash);
+    $keyVal = ($sumHash%9);
+    return $keyVal;
   }
 
   public function show() {
@@ -79,20 +88,27 @@ $third = new Chaine("3rd Block");
 $fourth = new Chaine("4rth Block");
 $fifth = new Chaine("5fth Block");
 
+// Hashage du 1er Bloc
+$first->hashBlock();
+$_ENV["sumToFind"] = $first->checkSum($first->dataHash);
+
+// Ajout et Hashage du 2eme Bloc à la chaine
 $first->addBlock($second);
+$second->hashBlock();
+$_ENV["sumToFind"] = $second->checkSum($second->dataHash);
+
+// Ajout et Hashage du 3eme Bloc à la chaine
 $first->addBlock($third);
+$third->hashBlock();
+$_ENV["sumToFind"] = $third->checkSum($third->dataHash);
+
+// Ajout et Hashage du 4eme Bloc à la chaine
 $first->addBlock($fourth);
-// $fourth->addBlock($fifth);
+$fourth->hashBlock();
+$_ENV["sumToFind"] = $fourth->checkSum($fourth->dataHash);
 
-
-// $third->hashBlock();
 $first->show();
 $second->show();
 $third->show();
-// $fourth->show();
+$fourth->show();
 // $fifth->show();
-
-// 1st Block | NULL | 4rth Block | 1stBlock
-// 2 Block | 4 | 3 | 1stBlock
-// 3 Block | 2 | NULL | 1stBlock
-// 4 Block | 1 | 2 | 1stBlock

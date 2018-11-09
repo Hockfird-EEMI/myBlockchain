@@ -1,5 +1,9 @@
 # myBlockchain
 
-Le fichier mineArray, représente une blockchain sous la forme d'un tableau.
+Bonjour Monsieur,
+Le devoir se situe dans le fichier "mineClass".
 
-Le fichier mineClass, représente une blockchain sous la forme de classes.
+Je souhaite garder le fichier "mineArray" car cela était ma première version avec un tableau.
+
+Merci beaucoup,
+Bien cordialement,
