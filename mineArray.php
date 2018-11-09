@@ -9,7 +9,7 @@ $arrayOfHashes = [];
 
 // Méthode de Hash
 function hasher($hashType, $index, $data, $previousData) {
-  $newHash = hash($hashType, $index . $data . $previousData);
+  $newHash = hash($hashType, $index . $data . $previousData . implode(getdate()));
   return $newHash;
 }
 
