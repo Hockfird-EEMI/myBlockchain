@@ -74,8 +74,8 @@ class Chaine {
 
   public function show() { // Simple méthode show pour afficher "Proprement le contenu de mon bloc"
     var_dump("Name : ".$this->data);
-    if ($this->prev == null) {var_dump("Prev : ".$this->prev);} else {var_dump("Prev : ".$this->prev->data);}
-    if ($this->next == null) {var_dump("Next : ".$this->next);} else {var_dump("Next : ".$this->next->data);}
+    if ($this->prev == null) {var_dump("Prev : Pas de prev");} else {var_dump("Prev : ".$this->prev->data);}
+    if ($this->next == null) {var_dump("Next : Pas de next");} else {var_dump("Next : ".$this->next->data);}
     if ($this->prem == null) {var_dump("Prem : ".$this->prem);} else {var_dump("Prem : ".$this->prem->data);}
     var_dump("Hash : ".$this->dataHash);
     var_dump("Diff : ".$this->diff);
