@@ -12,4 +12,5 @@ Néanmoins cela ne réprésente pas le devoir qui a été demandé.
 Merci beaucoup,
 
 Bien cordialement
+
 GS
